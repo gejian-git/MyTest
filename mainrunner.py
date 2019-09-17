@@ -44,17 +44,28 @@ def runcase(line,f):
 
     print('Warning:目前只支持3个参数的关键字')
 
-http =HTTP()
+
 reader = Reader()
 reader.open_excel('./lib/cases/HTTP接口用例.xls')
 sheetname = reader.get_sheets()
+
+
+writer = Writer()
+writer.copy_open('./lib/cases/HTTP接口用例.xls', './lib/cases/result-HTTP接口用例.xls')
+
+http =HTTP(writer)
 for sheet in sheetname:
     # 设置当前读取的sheet页面
     reader.set_sheet(sheet)
+    #保持读写同一个sheet
+    writer.set_sheet(sheet)
     for i in range(reader.rows):
+        writer.row=i
         line = reader.readline()
-        print(line)
+        # print(line)
         runcase(line,http)
+
+writer.save_close()
 
 
 

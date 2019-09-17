@@ -167,7 +167,7 @@ class Writer:
 # 调试
 if __name__ == '__main__':
     reader = Reader()
-    reader.open_excel('../lib/cases/HTTP接口用例.xls')
+    reader.open_excel('./lib/cases/HTTP接口用例.xls')
     sheetname = reader.get_sheets()
     for sheet in sheetname:
         # 设置当前读取的sheet页面
@@ -176,7 +176,7 @@ if __name__ == '__main__':
             print(reader.readline())
 
     writer = Writer()
-    writer.copy_open('../lib/cases/HTTP接口用例.xls', '../lib/results/result-HTTP接口用例.xls')
+    writer.copy_open('./lib/cases/HTTP接口用例.xls', './lib/results/result-HTTP接口用例.xls')
     sheetname = writer.get_sheets()
     writer.set_sheet(sheetname[0])
     writer.write(1, 1, 'William')
