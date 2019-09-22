@@ -1,6 +1,6 @@
 # encoding:utf8
 import requests,json,traceback
-
+from common import logger
 class HTTP:
 
     def __init__(self,writer):
@@ -19,7 +19,7 @@ class HTTP:
             self.writer.write(self.writer.row,8,str(self.url))
 
         else:
-            print('Error:URL格式有误')
+            logger.error('URL格式有误')
             self.writer.write(self.writer.row, 7, 'FAIL')
             self.writer.write(self.writer.row, 8, 'URL格式有误')
 
@@ -41,6 +41,7 @@ class HTTP:
         #如果返回有ssl，需要加上verify=False
         res=self.session.post(url,d,verify=False)
         self.result = res.content.decode(en)
+        logger.info(self.result)
         try:
             self.jsonres = json.loads((self.result))
             self.writer.write(self.writer.row,7,'PASS')
@@ -60,8 +61,9 @@ class HTTP:
             self.session.headers.pop(key)
             self.writer.write(self.writer.row, 7, 'PASS')
             self.writer.write(self.writer.row, 8, str(self.session.headers))
-        except:
-            print('没有'+key+'这个键对应的值存在')
+        except Exception as e:
+            logger.error('没有'+key+'这个键对应的值存在')
+            logger.exception(e)
             self.writer.write(self.writer.row, 7, 'FAIL')
             self.writer.write(self.writer.row, 8, str(self.session.headers))
 
@@ -78,13 +80,13 @@ class HTTP:
         try:
             res = str(self.jsonres[key])
         except:
-            print('参数取值有误')
+            logger.error('参数取值有误')
         if res==str(value):
-            print('PASS')
+            logger.info('PASS')
             self.writer.write(self.writer.row, 7, 'PASS')
             self.writer.write(self.writer.row, 8, str(self.result))
         else:
-            print('FAIL')
+            logger.info('FAIL')
             self.writer.write(self.writer.row, 7, 'FAIL')
             self.writer.write(self.writer.row, 8, str(self.result))
 
@@ -94,8 +96,9 @@ class HTTP:
             self.writer.write(self.writer.row, 7, 'PASS')
             self.writer.write(self.writer.row, 8, str(self.params[p]))
         except Exception as e:
-            print('保存参数失败')
-            print(traceback.format_exc())
+            logger.error('保存参数失败')
+            logger.exception(e)
+            # print(traceback.format_exc())
             self.writer.write(self.writer.row, 7, 'PASS')
             self.writer.write(self.writer.row, 8, str(self.jsonres))
 
@@ -124,7 +127,7 @@ class HTTP:
             try:
                 param[ppp[0]]=ppp[1]
             except Exception as e:
-                print('Waring:Url格式不标准')
+                logger.error('Waring:Url格式不标准')
 
         print(param)
         return param

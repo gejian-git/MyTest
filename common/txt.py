@@ -3,12 +3,6 @@ from common import logger
 
 
 class Txt:
-    """
-        powered by Mr Will
-           at 2018-12-21
-        用来读写文件
-    """
-
     # 构造函数打开txt
     def __init__(self, path, t='r', coding='utf8'):
         """
@@ -84,7 +78,7 @@ class Txt:
 # 调试
 if __name__ == '__main__':
     # 读取
-    reader = Txt('../lib/conf/conf.txt')
+    reader = Txt('../lib/conf.properties')
     t = reader.read()
     print(t)
 

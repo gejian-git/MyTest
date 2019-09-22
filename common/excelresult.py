@@ -88,7 +88,7 @@ class Res:
         # 用例总数
         self.sumarry["casecount"] = str(totalcount)
         # 通过率
-        self.sumarry["passrate"] = str(passrate)
+        self.sumarry["passrate"] = str(passrate)+'%'
         self.sumarry['status'] = status
         # logger.info(self.sumarry)
         return self.sumarry
@@ -96,5 +96,5 @@ class Res:
 
 if __name__ == '__main__':
     res = Res()
-    r = res.get_res('../lib/results/result-HTTP接口用例.xls')
+    r = res.get_res('../lib/cases/result-HTTP接口用例.xls')
     print(r)
